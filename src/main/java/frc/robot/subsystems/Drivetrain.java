@@ -10,8 +10,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.MORTlib.Test.Swerve.Odometer;
 import com.MORTlib.Test.Swerve.SwerveDrive;
 import com.MORTlib.Test.Swerve.SwerveModule;
 import static com.MORTlib.Test.Hardware.MotorTypeEnum.*;
@@ -41,6 +43,8 @@ public class Drivetrain extends SubsystemBase {
   private AHRS navX;
 
   private double fieldOrientationOffset;
+
+  public Odometer odometer;
 
   public Drivetrain() {
     frontLeftModule = new SwerveModule(
@@ -85,9 +89,12 @@ public class Drivetrain extends SubsystemBase {
     swerveDrive = new SwerveDrive(
       frontLeftModule, frontRightModule, 
       backLeftModule, backRightModule, 
-      kinematics);
+      kinematics
+    );
 
     navX = new AHRS(SPI.Port.kMXP);
+
+    odometer = new Odometer(swerveDrive);
   }
 
   public void drive(ChassisSpeeds speeds) {
@@ -125,13 +132,16 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
 
     swerveDrive.setVelocity(speeds);
+    odometer.update(getGyroscopeRotation(), swerveDrive);
+
+    SmartDashboard.putNumber("XPose", odometer.swervePose.getEstimatedPosition().getX());
+    SmartDashboard.putNumber("YPose", odometer.swervePose.getEstimatedPosition().getY());
   }
 
   public static Drivetrain getInstance() {
 		if (drivetrain == null) {
 			drivetrain = new Drivetrain();
 			Shuffleboard.getTab("dt").add(drivetrain);
-
 		}
 		return drivetrain;
 	}
