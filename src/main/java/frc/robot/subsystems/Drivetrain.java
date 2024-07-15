@@ -95,6 +95,8 @@ public class Drivetrain extends SubsystemBase {
     navX = new AHRS(SPI.Port.kMXP);
 
     odometer = new Odometer(swerveDrive);
+
+    speeds = new ChassisSpeeds(0, 0, 0);
   }
 
   public void drive(ChassisSpeeds speeds) {
