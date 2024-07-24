@@ -8,6 +8,8 @@ import frc.robot.library.Swerve.ModuleTypeEnum;
 import frc.robot.library.Swerve.Odometer;
 import frc.robot.library.Swerve.SwerveModule;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -93,5 +95,30 @@ public class OdometeredSwerveDrive extends OrientedSwerveDrive {
         );
 
         odometer = new Odometer(getKinematics(), getModulePositions());
+    }
+
+    public void resetPosition(Pose2d position) {
+        odometer.resetPosition(getFieldRelativeAngle2d(), getModulePositions(), position);
+    }
+
+    public void setMaxCamError(double error) {
+        odometer.setMaxCamError(error);
+    }
+
+    public Pose2d getPosition() {
+        return odometer.getPosition();
+    }
+
+    public void update() {
+        odometer.update(getFieldRelativeAngle2d(), getModulePositions());
+    }
+
+    public void update(
+            Pose2d camPose, double timeStamp
+        ) {
+        odometer.update(
+            getFieldRelativeAngle2d(), getModulePositions(),
+            camPose, timeStamp
+        );
     }
 }

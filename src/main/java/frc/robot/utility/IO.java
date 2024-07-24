@@ -64,9 +64,8 @@ public class IO {
 
         // joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.zeroIMU(IMU_TO_ROBOT_FRONT_ANGLE)));
         joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));
-        joystick.button(1).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.odometer.resetPosition(
-            Rotation2d.fromDegrees(drivetrain.swerveDrive.getFieldRelativeAngle()), 
-            drivetrain.swerveDrive, new Pose2d(0, 0, Rotation2d.fromDegrees(0))
+        joystick.button(1).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.resetPosition(
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0))
         )));
     }
 

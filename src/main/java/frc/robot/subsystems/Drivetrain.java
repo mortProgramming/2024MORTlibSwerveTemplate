@@ -4,11 +4,9 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.library.Hardware.IMU.IMU;
 import frc.robot.library.Swerve.SwerveModule;
 import frc.robot.library.Swerve.SwerveDrives.OdometeredSwerveDrive;
-import frc.robot.library.Swerve.SwerveDrives.OrientedSwerveDrive;
 
 import static frc.robot.library.Swerve.ModuleTypeEnum.*;
 import static frc.robot.library.Hardware.Motor.MotorTypeEnum.*;
@@ -122,11 +119,11 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    swerveDrive.setVelocity(speeds);
-    swerveDrive.odometer.update(Rotation2d.fromDegrees(swerveDrive.getFieldRelativeAngle()), swerveDrive.getModulePositions());
+    swerveDrive.setOrientedVelocity(speeds);
+    swerveDrive.update();
 
-    SmartDashboard.putNumber("XPose", swerveDrive.odometer.swervePose.getEstimatedPosition().getX());
-    SmartDashboard.putNumber("YPose", swerveDrive.odometer.swervePose.getEstimatedPosition().getY());
+    SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
+    SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
   }
 
   public static Drivetrain getInstance() {

@@ -106,6 +106,10 @@ public class OrientedSwerveDrive extends SwerveDrive {
         return imu.getAngle() - fieldOrientationOffset;
     }
 
+    public Rotation2d getFieldRelativeAngle2d () {
+        return Rotation2d.fromDegrees(imu.getAngle() - fieldOrientationOffset);
+    }
+
     public Rotation3d getRobotRotations () {
         return imu.getRotation3d();
     }
