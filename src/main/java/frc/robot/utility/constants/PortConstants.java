@@ -17,27 +17,30 @@ public final class PortConstants {
     public static final int FRONT_LEFT_DRIVE_ID = 2;
     public static final int FRONT_LEFT_STEER_ID = 1;
     public static final int FRONT_LEFT_ENCODER_ID = 11;
-    public static final int FRONT_LEFT_OFFSET = 0;
 
     public static final int FRONT_RIGHT_DRIVE_ID = 6;
     public static final int FRONT_RIGHT_STEER_ID = 3;
     public static final int FRONT_RIGHT_ENCODER_ID = 9;
-    public static final int FRONT_RIGHT_OFFSET = 0;
 
     public static final int BACK_LEFT_DRIVE_ID = 4;
     public static final int BACK_LEFT_STEER_ID = 0;
     public static final int BACK_LEFT_ENCODER_ID = 10;
-    public static final int BACK_LEFT_OFFSET = 0;
 
     public static final int BACK_RIGHT_DRIVE_ID = 5;
     public static final int BACK_RIGHT_STEER_ID = 7;
     public static final int BACK_RIGHT_ENCODER_ID = 8;
-    public static final int BACK_RIGHT_OFFSET = 0;
+
+    public static final int IMU_ID = 0;
 
   }
 
   public static final class ControllerPorts {
     public static final int JOYSTICK = 0;
+
+    public static final int JOYSTICK_X_CHANNEL = 0;
+    public static final int JOYSTICK_Y_CHANNEL = 1;
+    public static final int JOYSTICK_TWIST_CHANNEL = 3;
+    public static final int THROTTLE_CHANNEL = 2;
 
     public static final double DEAD_BAND = 0;
 

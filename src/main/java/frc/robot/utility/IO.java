@@ -1,7 +1,8 @@
 package frc.robot.utility;
 
+import static frc.robot.utility.constants.PhysicalConstants.DrivetrainConstants.DRIVETRAIN_RADII_METERS;
+import static frc.robot.utility.constants.PhysicalConstants.DrivetrainConstants.IMU_TO_ROBOT_FRONT_ANGLE;
 import static frc.robot.utility.constants.PortConstants.ControllerPorts.*;
-import static frc.robot.utility.constants.PhysicalConstants.DrivetrainConstants.*;
 
 import java.sql.DriverPropertyInfo;
 import java.util.function.DoubleSupplier;
@@ -23,10 +24,10 @@ import frc.robot.subsystems.Drivetrain;
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.units.Velocity;
 
-public class Control {
+public class IO {
     private Alliance defaultAlliance = Alliance.Blue;
     private static CommandJoystick joystick;
-	private static CommandJoystick throttle;
+	// private static CommandJoystick throttle;
 	private static CommandXboxController xboxController;
     private static DoubleSupplier zeroSupplier = new DoubleSupplier() {
         @Override
@@ -40,15 +41,33 @@ public class Control {
     public static void init() {
 		joystick = new CommandJoystick(JOYSTICK);
 
+        joystick.setXChannel(JOYSTICK_X_CHANNEL);
+        joystick.setYChannel(JOYSTICK_Y_CHANNEL);
+        joystick.setTwistChannel(JOYSTICK_TWIST_CHANNEL);
+        joystick.setThrottleChannel(THROTTLE_CHANNEL);
+
+        // throttle.setThrottleChannel(THROTTLE_CHANNEL);
+
 		drivetrain = Drivetrain.getInstance();
     }
 
     public static void configure() {
-		drivetrain.setDefaultCommand(
-			new Drive(Control::getJoystickY, Control::getJoystickX, Control::getJoystickTwist)
+		// drivetrain.setDefaultCommand(
+		// 	new Drive(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
+        // );
+        drivetrain.setDefaultCommand(
+			drivetrain.driveCommand(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
         );
+        // drivetrain.setDefaultCommand(
+        //     drivetrain.driveCommand(IO::getLeftControllerXSwerve, IO::getLeftControllerYSwerve, IO::getRightControllerXSwerve)
+        // );
 
-        joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.zeroGyroscope(0)));
+        // joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.zeroIMU(IMU_TO_ROBOT_FRONT_ANGLE)));
+        joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));
+        joystick.button(1).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.odometer.resetPosition(
+            Rotation2d.fromDegrees(drivetrain.swerveDrive.getFieldRelativeAngle()), 
+            drivetrain.swerveDrive, new Pose2d(0, 0, Rotation2d.fromDegrees(0))
+        )));
     }
 
     //where the axis doesn't take in values near 0, and starts past 0
@@ -109,8 +128,6 @@ public class Control {
 
         value = Math.copySign(value * value, value);
 
-        throttleValue = (throttleValue + 1) / 2;
-
         return value * (throttleValue * (MAX_THROTTLE - MIN_THROTTLE) + MIN_THROTTLE);
         // return value * throttleValue;
     }
@@ -120,14 +137,13 @@ public class Control {
 
         value = Math.copySign(value, value);
 
-        throttleValue = (throttleValue + 1) / 2;
-
         return value * (throttleValue * (MAX_ROTATE - MIN_ROTATE) + MIN_ROTATE);
         // return value * throttleValue;
     }
 
     public static double getThrottle() {
-        return throttle.getRawAxis(2);
+        return (joystick.getThrottle() + 1 ) / 2;
+        // return throttle.getThrottle();
     }
 
     /**
@@ -135,7 +151,7 @@ public class Control {
      * @return
      */
     public static double getJoystickX() {
-		return modifyAxis1(joystick.getX(), joystick.getRawAxis(2)) * drivetrain.frontLeftModule.getMaxSpeed();
+		return modifyAxis1(joystick.getX(), getThrottle()) * drivetrain.frontLeftModule.getMaxSpeed();
 	}
 
     /**
@@ -143,7 +159,7 @@ public class Control {
      * @return
      */
 	public static double getJoystickY() {
-		return modifyAxis1(joystick.getY(), joystick.getRawAxis(2)) * drivetrain.frontLeftModule.getMaxSpeed();
+		return modifyAxis1(joystick.getY(), getThrottle()) * drivetrain.frontLeftModule.getMaxSpeed();
 	}
 
     /**
@@ -151,18 +167,21 @@ public class Control {
      * @return
      */
 	public static double getJoystickTwist() {
-		return modifyAxisTwist(joystick.getRawAxis(3), joystick.getRawAxis(2))
+		return modifyAxisTwist(joystick.getTwist(), getThrottle())
 			    * drivetrain.frontLeftModule.getMaxSpeed() / 
-                Math.hypot(
-                    DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0
-                );
+                DRIVETRAIN_RADII_METERS;
+    }
+    
+    public static double getLeftControllerXSwerve() {
+        return xboxController.getLeftX() * drivetrain.frontLeftModule.getMaxSpeed();
     }
 
-    // public static double getLeftJoystickY() {
-    //     return xboxController.getLeftY();
-    // }
-
-    // public static double getRightJoystickY(){
-    //     return xboxController.getRightY();
-    // }
+    public static double getLeftControllerYSwerve() {
+        return xboxController.getLeftY() * drivetrain.frontLeftModule.getMaxSpeed();
+    }
+    
+    public static double getRightControllerXSwerve(){
+        return xboxController.getRightX() * drivetrain.frontLeftModule.getMaxSpeed() / 
+                DRIVETRAIN_RADII_METERS;
+    }
  }
