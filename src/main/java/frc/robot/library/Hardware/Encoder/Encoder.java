@@ -22,6 +22,10 @@ public class Encoder implements EncoderIntf {
         }
     }
 
+    public void setCanivore(String canivore) {
+        encoder.setCanivore(canivore);
+    }
+
     public Rotation2d getPosition() {
         return encoder.getPosition();
     }

@@ -52,6 +52,10 @@ public class CANSparkMaxMotor implements MotorIntf {
         // do later
     }
 
+    public void setCanivore(String canivore) {
+        System.out.println("Why are you here?");
+    }
+
     
 
     public double getPositionD() {

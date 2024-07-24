@@ -14,6 +14,8 @@ public interface MotorIntf {
 
     public void setPositionD(double position, double setpoint);
 
+    public void setCanivore(String canivore);
+
     // degrees
     public double getPositionD();
 
@@ -24,5 +26,5 @@ public interface MotorIntf {
 
     public double getVelocity1();
 
-
+    public Object getMotor();
 }

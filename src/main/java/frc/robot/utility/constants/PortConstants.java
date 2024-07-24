@@ -32,6 +32,8 @@ public final class PortConstants {
 
     public static final int IMU_ID = 0;
 
+    public static final String CANIVORE_NAME = "";
+
   }
 
   public static final class ControllerPorts {

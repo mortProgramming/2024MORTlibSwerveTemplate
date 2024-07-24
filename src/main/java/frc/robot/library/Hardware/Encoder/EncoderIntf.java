@@ -10,5 +10,7 @@ public interface EncoderIntf {
 
     public double getPositionR();
 
+    public void setCanivore(String canivore);
+
 
 }

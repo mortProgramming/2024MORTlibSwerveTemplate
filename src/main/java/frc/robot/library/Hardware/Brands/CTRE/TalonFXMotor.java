@@ -53,6 +53,10 @@ public class TalonFXMotor implements MotorIntf {
         //do
     }
 
+    public void setCanivore(String canivore) {
+        motor = new TalonFX(ID, canivore);
+    }
+
 
 
     public double getPositionD() {

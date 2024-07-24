@@ -187,4 +187,27 @@ public class SwerveDrive {
             backRightModule.getPosition()
         };
     }
+
+    public void toCanivore(String canivore) {
+        frontLeftModule.getDriveMotor().setCanivore(canivore);
+        frontRightModule.getDriveMotor().setCanivore(canivore);
+        backLeftModule.getDriveMotor().setCanivore(canivore);
+        backRightModule.getDriveMotor().setCanivore(canivore);
+
+        frontLeftModule.getSteerMotor().setCanivore(canivore);
+        frontRightModule.getSteerMotor().setCanivore(canivore);
+        backLeftModule.getSteerMotor().setCanivore(canivore);
+        backRightModule.getSteerMotor().setCanivore(canivore);
+
+        frontLeftModule.getEncoder().setCanivore(canivore);
+        frontRightModule.getEncoder().setCanivore(canivore);
+        backLeftModule.getEncoder().setCanivore(canivore);
+        backRightModule.getEncoder().setCanivore(canivore);
+    }
+
+    public static void toCanivore(SwerveModule module, String canivore) {
+        module.getDriveMotor().setCanivore(canivore);
+        module.getSteerMotor().setCanivore(canivore);
+        module.getEncoder().setCanivore(canivore);
+    }
 }

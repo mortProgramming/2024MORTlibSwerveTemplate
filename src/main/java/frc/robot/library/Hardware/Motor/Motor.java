@@ -66,6 +66,12 @@ public class Motor implements MotorIntf {
         motor.setPositionD(position, setpoint);
     }
 
+    public void setCanivore(String canivore) {
+        motor.setCanivore(canivore);
+    }
+
+
+    
     public double getPositionD() {
         return motor.getPositionD();
     }

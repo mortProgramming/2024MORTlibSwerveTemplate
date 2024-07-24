@@ -17,6 +17,10 @@ public class CANCoderEncoder implements EncoderIntf {
         encoder = new CANcoder(ID);
     }
 
+    public void setCanivore(String canivore) {
+        encoder = new CANcoder(ID, canivore);
+    }
+
     public Rotation2d getPosition() {
         return Rotation2d.fromRotations(encoder.getPosition().getValueAsDouble());
     }

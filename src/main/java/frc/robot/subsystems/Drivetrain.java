@@ -97,6 +97,8 @@ public class Drivetrain extends SubsystemBase {
       kinematics, imu
     );
 
+    swerveDrive.toCanivore(CANIVORE_NAME);
+
     speeds = new ChassisSpeeds(0, 0, 0);
   }
 
