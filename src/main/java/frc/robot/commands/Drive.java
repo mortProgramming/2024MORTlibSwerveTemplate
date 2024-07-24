@@ -24,8 +24,8 @@ public class Drive extends Command {
     drivetrain =  Drivetrain.getInstance();
 
     this.wantedX = wantedX;
-    this.wantedX = wantedY;
-    this.wantedX = wantedTheta;
+    this.wantedY = wantedY;
+    this.wantedTheta = wantedTheta;
 
     addRequirements(drivetrain);
   }
@@ -38,10 +38,10 @@ public class Drive extends Command {
   @Override
   public void execute() {
     drivetrain.drive(
-      ChassisSpeeds.fromFieldRelativeSpeeds(
+      new ChassisSpeeds(
         wantedX.getAsDouble(),
-				wantedY.getAsDouble(), wantedTheta.getAsDouble(),
-				drivetrain.getGyroscopeRotation()
+				wantedY.getAsDouble(), 
+        wantedTheta.getAsDouble()
       )
     );
   }
@@ -50,11 +50,7 @@ public class Drive extends Command {
   @Override
   public void end(boolean interrupted) {
     drivetrain.drive(
-      new ChassisSpeeds(
-        0, 
-        0, 
-        0
-      )
+      new ChassisSpeeds(0, 0, 0)
     );
   }
 
