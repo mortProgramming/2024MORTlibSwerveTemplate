@@ -1,4 +1,4 @@
-package frc.robot.library.Hardware.rev;
+package frc.robot.library.Hardware.Brands.REV;
 
 // import com.revrobotics.CANSparkMax;
 // import com.revrobotics.CANSparkLowLevel;

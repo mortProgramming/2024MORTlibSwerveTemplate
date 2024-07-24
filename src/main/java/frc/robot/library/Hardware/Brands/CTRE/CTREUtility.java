@@ -1,4 +1,4 @@
-package frc.robot.library.Hardware.ctre;
+package frc.robot.library.Hardware.Brands.CTRE;
 
 public class CTREUtility {
 

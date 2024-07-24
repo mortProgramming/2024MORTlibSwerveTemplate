@@ -1,7 +1,9 @@
-package frc.robot.library.Swerve;
+package frc.robot.library.Swerve.SwerveDrives;
 
-import frc.robot.library.Hardware.EncoderTypeEnum;
-import frc.robot.library.Hardware.MotorTypeEnum;
+import frc.robot.library.Hardware.Encoder.EncoderTypeEnum;
+import frc.robot.library.Hardware.Motor.MotorTypeEnum;
+import frc.robot.library.Swerve.ModuleTypeEnum;
+import frc.robot.library.Swerve.SwerveModule;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -104,7 +106,15 @@ public class SwerveDrive {
     public void setVelocity(ChassisSpeeds velocity) {
         this.velocity = velocity;
 
-        // velocity = ChassisSpeeds.discretize(velocity, descritizedValue);
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
+		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
+        setStates(states);
+    }
+
+    public void setDescitizedVelocity(ChassisSpeeds velocity) {
+        this.velocity = velocity;
+
+        velocity = ChassisSpeeds.discretize(velocity, descritizedValue);
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
 		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
         setStates(states);

@@ -1,6 +1,6 @@
-package frc.robot.library.Hardware.ctre;
+package frc.robot.library.Hardware.Brands.CTRE;
 
-import frc.robot.library.Hardware.MotorIntf;
+import frc.robot.library.Hardware.Motor.MotorIntf;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 

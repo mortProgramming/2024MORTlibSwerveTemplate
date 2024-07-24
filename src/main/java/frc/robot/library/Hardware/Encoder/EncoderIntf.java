@@ -1,4 +1,4 @@
-package frc.robot.library.Hardware;
+package frc.robot.library.Hardware.Encoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 

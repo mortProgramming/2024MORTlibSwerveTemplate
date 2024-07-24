@@ -1,8 +1,7 @@
-package frc.robot.library.Hardware;
+package frc.robot.library.Hardware.Motor;
 
-import frc.robot.library.Hardware.ctre.TalonFXMotor;
-import frc.robot.library.Hardware.rev.CANSparkMaxMotor;
-
+import frc.robot.library.Hardware.Brands.CTRE.TalonFXMotor;
+import frc.robot.library.Hardware.Brands.REV.CANSparkMaxMotor;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 

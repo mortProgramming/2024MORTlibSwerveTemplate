@@ -4,17 +4,18 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-import frc.robot.library.Hardware.ctre.CTREUtility.Falcon500;
-import frc.robot.library.Hardware.ctre.CTREUtility.Krakenx60;
-import frc.robot.library.Hardware.rev.RevUtility.NEO;
-import frc.robot.library.Hardware.rev.RevUtility.NEO550;
-import frc.robot.library.Hardware.Motor;
-import frc.robot.library.Hardware.PIDMotor;
-import frc.robot.library.Hardware.MotorIntf;
-import frc.robot.library.Hardware.MotorTypeEnum;
-import frc.robot.library.Hardware.Encoder;
-import frc.robot.library.Hardware.EncoderIntf;
-import frc.robot.library.Hardware.EncoderTypeEnum;
+import frc.robot.library.Hardware.Motor.Motor;
+import frc.robot.library.Hardware.Motor.MotorIntf;
+import frc.robot.library.Hardware.Motor.MotorTypeEnum;
+import frc.robot.library.Hardware.Motor.PIDMotor;
+import frc.robot.library.Hardware.Brands.CTRE.CTREUtility.Falcon500;
+import frc.robot.library.Hardware.Brands.CTRE.CTREUtility.Krakenx60;
+import frc.robot.library.Hardware.Brands.REV.RevUtility.NEO;
+import frc.robot.library.Hardware.Brands.REV.RevUtility.NEO550;
+import frc.robot.library.Hardware.Encoder.Encoder;
+import frc.robot.library.Hardware.Encoder.EncoderIntf;
+import frc.robot.library.Hardware.Encoder.EncoderTypeEnum;
+
 import static frc.robot.library.Swerve.Constants.*;
 
 public class SwerveModule {
@@ -28,9 +29,9 @@ public class SwerveModule {
     public EncoderTypeEnum encoderType;
     public ModuleTypeEnum moduleType;
 
-    public MotorIntf driveMotor;
-    public MotorIntf steerMotor;
-    public EncoderIntf encoder;
+    public Motor driveMotor;
+    public PIDMotor steerMotor;
+    public Encoder encoder;
 
     public double maxSpeed;
     public double maxVoltage;
@@ -108,6 +109,9 @@ public class SwerveModule {
                 );
                 break;
         }
+
+        steerMotor.setPIDEnableContinuousInput(-180, 180);
+        steerMotor.setPIDTolerance(1, 400);
 
         switch (moduleType) {
             case MK4i:
@@ -196,15 +200,15 @@ public class SwerveModule {
 
 
 
-    public MotorIntf getDriveMotor() {
+    public Motor getDriveMotor() {
         return driveMotor;
     }
     
-    public MotorIntf getSteerMotor() {
+    public Motor getSteerMotor() {
         return steerMotor;
     }
 
-    public EncoderIntf getEncoder() {
+    public Encoder getEncoder() {
         return encoder;
     }
 

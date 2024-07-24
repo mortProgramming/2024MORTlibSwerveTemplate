@@ -1,7 +1,6 @@
-package frc.robot.library.Hardware.ctre;
+package frc.robot.library.Hardware.Brands.CTRE;
 
-import frc.robot.library.Hardware.EncoderIntf;
-
+import frc.robot.library.Hardware.Encoder.EncoderIntf;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;

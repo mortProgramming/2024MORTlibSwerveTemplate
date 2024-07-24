@@ -1,8 +1,7 @@
-package frc.robot.library.Hardware.rev;
-
-import frc.robot.library.Hardware.MotorIntf;
+package frc.robot.library.Hardware.Brands.REV;
 
 import com.revrobotics.CANSparkMax;
+import frc.robot.library.Hardware.Motor.MotorIntf;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.SparkPIDController;
 
