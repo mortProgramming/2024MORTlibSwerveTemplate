@@ -15,6 +15,8 @@ public class Pigeon2IMU implements IMUIntf {
 
     public Pigeon2IMU(int ID) {
         this.ID = ID;
+
+        imu = new Pigeon2(ID);
     }
 
     public double getAngle() {

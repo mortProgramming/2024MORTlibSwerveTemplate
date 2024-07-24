@@ -47,32 +47,32 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     frontLeftModule = new SwerveModule(
-      KRAKEN, FRONT_LEFT_DRIVE_ID, 
-      KRAKEN, FRONT_LEFT_STEER_ID, 
+      FALCON, FRONT_LEFT_DRIVE_ID, 
+      FALCON, FRONT_LEFT_STEER_ID, 
       CANCODER, FRONT_LEFT_ENCODER_ID, 
       MK4i
     );
     frontLeftModule.setOffset(FRONT_LEFT_OFFSET);
 
     frontRightModule = new SwerveModule(
-      KRAKEN, FRONT_RIGHT_DRIVE_ID, 
-      KRAKEN, FRONT_RIGHT_STEER_ID, 
+      FALCON, FRONT_RIGHT_DRIVE_ID, 
+      FALCON, FRONT_RIGHT_STEER_ID, 
       CANCODER, FRONT_RIGHT_ENCODER_ID, 
       MK4i
     );
     frontRightModule.setOffset(FRONT_RIGHT_OFFSET);
 
     backLeftModule = new SwerveModule(
-      KRAKEN, BACK_LEFT_DRIVE_ID, 
-      KRAKEN, BACK_LEFT_STEER_ID, 
+      FALCON, BACK_LEFT_DRIVE_ID, 
+      FALCON, BACK_LEFT_STEER_ID, 
       CANCODER, BACK_LEFT_ENCODER_ID, 
       MK4i
     );
     backLeftModule.setOffset(BACK_LEFT_OFFSET);
 
     backRightModule = new SwerveModule(
-      KRAKEN, BACK_RIGHT_DRIVE_ID, 
-      KRAKEN, BACK_RIGHT_STEER_ID, 
+      FALCON, BACK_RIGHT_DRIVE_ID, 
+      FALCON, BACK_RIGHT_STEER_ID, 
       CANCODER, BACK_RIGHT_ENCODER_ID, 
       MK4i
     );
@@ -97,7 +97,7 @@ public class Drivetrain extends SubsystemBase {
       kinematics, imu
     );
 
-    swerveDrive.toCanivore(CANIVORE_NAME);
+   swerveDrive.toCanivore(CANIVORE_NAME);
 
     speeds = new ChassisSpeeds(0, 0, 0);
   }
@@ -121,11 +121,16 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    swerveDrive.setOrientedVelocity(speeds);
+    // swerveDrive.setOrientedVelocity(speeds);
+    swerveDrive.setVelocity(speeds);
+    // swerveDrive.setOrientedVelocity(new ChassisSpeeds(0, 0, 0));
     swerveDrive.update();
 
     SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
     SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
+    SmartDashboard.putNumber("Yaw", swerveDrive.getFieldRelativeAngle());
+    SmartDashboard.putNumber("Pitch", swerveDrive.getRobotRotations().getY());
+    SmartDashboard.putNumber("Roll", swerveDrive.getRobotRotations().getZ());
   }
 
   public static Drivetrain getInstance() {

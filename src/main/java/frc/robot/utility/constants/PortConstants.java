@@ -30,14 +30,15 @@ public final class PortConstants {
     public static final int BACK_RIGHT_STEER_ID = 7;
     public static final int BACK_RIGHT_ENCODER_ID = 8;
 
-    public static final int IMU_ID = 0;
+    public static final int IMU_ID = 23;
 
-    public static final String CANIVORE_NAME = "";
+    public static final String CANIVORE_NAME = "Drivetrain";
 
   }
 
   public static final class ControllerPorts {
     public static final int JOYSTICK = 0;
+    public static final int CONTROLLER = 1;
 
     public static final int JOYSTICK_X_CHANNEL = 0;
     public static final int JOYSTICK_Y_CHANNEL = 1;

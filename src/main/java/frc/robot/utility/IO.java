@@ -40,6 +40,7 @@ public class IO {
 
     public static void init() {
 		joystick = new CommandJoystick(JOYSTICK);
+        xboxController= new CommandXboxController(CONTROLLER);
 
         joystick.setXChannel(JOYSTICK_X_CHANNEL);
         joystick.setYChannel(JOYSTICK_Y_CHANNEL);
@@ -56,11 +57,8 @@ public class IO {
 		// 	new Drive(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
         // );
         drivetrain.setDefaultCommand(
-			drivetrain.driveCommand(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
+            new Drive(IO::getLeftControllerXSwerve, IO::getLeftControllerYSwerve, IO::getRightControllerXSwerve)
         );
-        // drivetrain.setDefaultCommand(
-        //     drivetrain.driveCommand(IO::getLeftControllerXSwerve, IO::getLeftControllerYSwerve, IO::getRightControllerXSwerve)
-        // );
 
         // joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.zeroIMU(IMU_TO_ROBOT_FRONT_ANGLE)));
         joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));

@@ -44,6 +44,9 @@ public class Drive extends Command {
         wantedTheta.getAsDouble()
       )
     );
+
+    System.out.println("hi");
+    System.out.println(drivetrain.swerveDrive.getFieldRelativeAngle());
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +60,6 @@ public class Drive extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
