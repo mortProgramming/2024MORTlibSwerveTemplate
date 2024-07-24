@@ -15,6 +15,8 @@ public class NavX2IMU implements IMUIntf {
 
     public NavX2IMU(int ID) {
         this.ID = ID;
+
+        imu = new AHRS();
     }
 
     public double getAngle() {
