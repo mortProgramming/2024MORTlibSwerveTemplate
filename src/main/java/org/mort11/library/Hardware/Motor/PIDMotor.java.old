@@ -26,8 +26,8 @@ public class PIDMotor implements MotorIntf {
         motor.setCurrentLimit(limit);
     }
 
-    public void setDirection(boolean direction) {
-        motor.setDirection(direction);
+    public void setDirectionFlip(boolean direction) {
+        motor.setDirectionFlip(direction);
     }
 
     public void setPositionD(double position, double setpoint) {

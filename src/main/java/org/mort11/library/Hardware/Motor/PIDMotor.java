@@ -1,7 +1,6 @@
 package org.mort11.library.Hardware.Motor;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 
 public class PIDMotor extends Motor {
 
@@ -32,9 +31,4 @@ public class PIDMotor extends Motor {
     public void setPositionRotations(double position, double setpoint) {
         super.setVoltage(controller.calculate(position, setpoint));
     }
-
-    public PIDController getPIDController() {
-        return controller;
-    }
-
 }

@@ -5,8 +5,6 @@ import org.mort11.library.Hardware.Motor.MotorIntf;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-
 public class TalonFXMotor implements MotorIntf {
 
     public int ID;
@@ -33,7 +31,7 @@ public class TalonFXMotor implements MotorIntf {
         motor.getConfigurator().apply(config);
     }
 
-    public void setDirection(boolean direction) {
+    public void setDirectionFlip(boolean direction) {
         motor.setInverted(direction);
     }
 

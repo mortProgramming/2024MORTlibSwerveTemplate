@@ -7,8 +7,6 @@ import org.mort11.library.Hardware.Motor.MotorIntf;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-
 public class CANSparkMaxMotor implements MotorIntf {
 
     public int ID;
@@ -34,7 +32,7 @@ public class CANSparkMaxMotor implements MotorIntf {
         motor.setSecondaryCurrentLimit(limit);
     }
 
-    public void setDirection(boolean direction) {
+    public void setDirectionFlip(boolean direction) {
         motor.setInverted(direction);
     }
 

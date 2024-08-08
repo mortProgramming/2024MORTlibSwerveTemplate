@@ -30,10 +30,6 @@ public class Encoder implements EncoderIntf {
         return encoder.getPosition();
     }
 
-    public EncoderIntf getEncoder() {
-        return encoder;
-    }
-
     public EncoderTypeEnum getEncoderType() {
         return encoderType;
     }

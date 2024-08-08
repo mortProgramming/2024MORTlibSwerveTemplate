@@ -1,7 +1,7 @@
 Do Later:
 1. Second order kinematics
     a. Smudge constants?
-2. Module Positions Viewer Page
+2.      Module Positions Viewer Page
 3. Arm Stuff
     a. Basic Arm PID, FF, and Gravity
 4. Wrappers
@@ -29,7 +29,8 @@ Do Later:
 Doing Now:
 1. Odometry
 2. Slew Rate Limiting
-3. 
+3. Module Positions Viewer Page
+4. 
 
 Done Recently:
 1. 

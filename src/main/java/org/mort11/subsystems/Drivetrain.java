@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static org.mort11.configuration.constants.PhysicalConstants.DrivetrainConstants.*;
@@ -60,7 +59,6 @@ public class Drivetrain extends SubsystemBase {
       CANCODER, FRONT_LEFT_ENCODER_ID, 
       MK4i
     );
-    frontLeftModule.setOffset(FRONT_LEFT_OFFSET);
 
     frontRightModule = new SwerveModule(
       FALCON, FRONT_RIGHT_DRIVE_ID, 
@@ -68,7 +66,6 @@ public class Drivetrain extends SubsystemBase {
       CANCODER, FRONT_RIGHT_ENCODER_ID, 
       MK4i
     );
-    frontRightModule.setOffset(FRONT_RIGHT_OFFSET);
 
     backLeftModule = new SwerveModule(
       FALCON, BACK_LEFT_DRIVE_ID, 
@@ -76,7 +73,6 @@ public class Drivetrain extends SubsystemBase {
       CANCODER, BACK_LEFT_ENCODER_ID, 
       MK4i
     );
-    backLeftModule.setOffset(BACK_LEFT_OFFSET);
 
     backRightModule = new SwerveModule(
       FALCON, BACK_RIGHT_DRIVE_ID, 
@@ -84,7 +80,11 @@ public class Drivetrain extends SubsystemBase {
       CANCODER, BACK_RIGHT_ENCODER_ID, 
       MK4i
     );
-    backRightModule.setOffset(BACK_RIGHT_OFFSET);
+
+    frontLeftModule.steerMotor.setDirectionFlip(true);
+    frontRightModule.steerMotor.setDirectionFlip(true);
+    backLeftModule.steerMotor.setDirectionFlip(true);
+    backRightModule.steerMotor.setDirectionFlip(true);
 
     kinematics = new SwerveDriveKinematics(
       // Front left
@@ -105,6 +105,8 @@ public class Drivetrain extends SubsystemBase {
       kinematics, imu
     );
 
+    swerveDrive.setOffsets(FRONT_LEFT_OFFSET, FRONT_RIGHT_OFFSET, BACK_LEFT_OFFSET, BACK_RIGHT_OFFSET);
+
     swerveDrive.setCanivore(CANIVORE_NAME);
   }
 
@@ -114,8 +116,9 @@ public class Drivetrain extends SubsystemBase {
 
   public Command driveCommand(DoubleSupplier joystickX, DoubleSupplier joystickY, DoubleSupplier joystickTwist) {
     return new InstantCommand(() -> drive(
-      new ChassisSpeeds(joystickX.getAsDouble(), joystickY.getAsDouble(), joystickTwist.getAsDouble())
-    ), drivetrain);
+        new ChassisSpeeds(joystickX.getAsDouble(), joystickY.getAsDouble(), joystickTwist.getAsDouble())
+      ), drivetrain
+    );
   }
 
   public Command zeroIMUCommand(double angle) {
@@ -134,9 +137,9 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
     SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
 
-    SmartDashboard.putNumber("Yaw", swerveDrive.getFieldRelativeAngle());
-    SmartDashboard.putNumber("Pitch", swerveDrive.getRobotRotations().getY());
-    SmartDashboard.putNumber("Roll", swerveDrive.getRobotRotations().getZ());
+    SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
+    SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
+    SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
   }
 
   public static Drivetrain getInstance() {

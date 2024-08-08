@@ -1,6 +1,6 @@
 package org.mort11.configuration;
 
-import org.mort11.commands.actions.drivetrain.Drive;
+// import org.mort11.commands.actions.drivetrain.Drive;
 import org.mort11.subsystems.Drivetrain;
 import static org.mort11.configuration.Inputs.*;
 
@@ -22,17 +22,17 @@ public class IO {
         init();
 
 		// drivetrain.setDefaultCommand(
-		// 	new Drive(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
+		// 	new Drive(Inputs::getJoystickX, Inputs::getJoystickY, Inputs::getJoystickTwist)
         // );
         // drivetrain.setDefaultCommand(
-		// 	drivetrain.driveCommand(IO::getJoystickX, IO::getJoystickY, IO::getJoystickTwist)
+		// 	drivetrain.driveCommand(Inputs::getJoystickX, Inputs::getJoystickY, Inputs::getJoystickTwist)
+        // );
+        // drivetrain.setDefaultCommand(
+        //     new Drive(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
         // );
         drivetrain.setDefaultCommand(
-            new Drive(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
+            drivetrain.driveCommand(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
         );
-        // drivetrain.setDefaultCommand(
-        //     drivetrain.driveCommand(IO::getLeftControllerXSwerve, IO::getLeftControllerYSwerve, IO::getRightControllerXSwerve)
-        // );
 
         // joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.zeroIMU(IMU_TO_ROBOT_FRONT_ANGLE)));
         joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));

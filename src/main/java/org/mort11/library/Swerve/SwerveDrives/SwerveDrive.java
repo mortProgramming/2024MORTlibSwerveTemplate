@@ -12,6 +12,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class SwerveDrive {
 
@@ -31,6 +35,8 @@ public class SwerveDrive {
 
     public double tangentRateLimiterLimit;
     public double rotationRateLimiterLimit;
+
+    public ShuffleboardTab tab;
     
     public SwerveDrive (
             MotorTypeEnum frontLeftDriveMotorType, int frontLeftDriveMotorID, 
@@ -114,13 +120,38 @@ public class SwerveDrive {
 
         tangentRateLimiter = new SlewRateLimiter(tangentRateLimiterLimit);
         rotationRateLimiter = new SlewRateLimiter(rotationRateLimiterLimit);
+
+        tab = Shuffleboard.getTab("Drivetrain");
+        makeShuffleboardTab();
+    }
+
+    public void makeShuffleboardTab() {
+        makeShuffleboardModuleLayout("Front Left Module", 0);
+        makeShuffleboardModuleLayout("Front Right Module", 1);
+        makeShuffleboardModuleLayout("Back Left Module", 2);
+        makeShuffleboardModuleLayout("Back Right Module", 3);
+
+        ShuffleboardLayout layout = tab.getLayout("Overall", BuiltInLayouts.kList);
+        layout.withSize(2, 4).withPosition(0, 5);
+        layout.addNumber("X Velocity", () -> velocity.vxMetersPerSecond);
+        layout.addNumber("Y Velocity", () -> velocity.vyMetersPerSecond);
+        layout.addNumber("Rotational Velocity", () -> velocity.omegaRadiansPerSecond);
+    }
+
+    public void makeShuffleboardModuleLayout(String layoutName, int moduleNumber) {
+        ShuffleboardLayout layout = tab.getLayout(layoutName, BuiltInLayouts.kList);
+        layout.withSize(2, 4).withPosition(moduleNumber * 2, 0);
+        layout.addNumber("Current Velocity RPM", () -> getModule(moduleNumber).getDriveVelocityRPM());
+        layout.addNumber("Current Velocity MPerS", () -> getModule(moduleNumber).state.speedMetersPerSecond);
+        layout.addNumber("Current Position", () -> getModule(moduleNumber).getEncoderPosition().getDegrees());
+        layout.addNumber("Wanted Position", () -> getModule(moduleNumber).state.angle.getDegrees());
     }
 
     public void setVelocity(ChassisSpeeds velocity) {
         this.velocity = velocity;
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
-		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
+		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).maxSpeed);
         setStates(states);
     }
 
@@ -128,7 +159,7 @@ public class SwerveDrive {
         this.velocity = new ChassisSpeeds(x, y, omega);
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
-		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
+		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).maxSpeed);
         setStates(states);
     }
 
@@ -137,7 +168,7 @@ public class SwerveDrive {
 
         velocity = ChassisSpeeds.discretize(velocity, descritizedValue);
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
-		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
+		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).maxSpeed);
         setStates(states);
     }
 
@@ -158,7 +189,7 @@ public class SwerveDrive {
         );
         velocity = ChassisSpeeds.discretize(velocity, descritizedValue);
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(velocity);
-		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).getMaxSpeed());
+		SwerveDriveKinematics.desaturateWheelSpeeds(states, getModule(0).maxSpeed);
         setStates(states);
     }
 
@@ -239,25 +270,25 @@ public class SwerveDrive {
     }
 
     public void setCanivore(String canivore) {
-        frontLeftModule.getDriveMotor().setCanivore(canivore);
-        frontRightModule.getDriveMotor().setCanivore(canivore);
-        backLeftModule.getDriveMotor().setCanivore(canivore);
-        backRightModule.getDriveMotor().setCanivore(canivore);
+        frontLeftModule.driveMotor.setCanivore(canivore);
+        frontRightModule.driveMotor.setCanivore(canivore);
+        backLeftModule.driveMotor.setCanivore(canivore);
+        backRightModule.driveMotor.setCanivore(canivore);
 
-        frontLeftModule.getSteerMotor().setCanivore(canivore);
-        frontRightModule.getSteerMotor().setCanivore(canivore);
-        backLeftModule.getSteerMotor().setCanivore(canivore);
-        backRightModule.getSteerMotor().setCanivore(canivore);
+        frontLeftModule.steerMotor.setCanivore(canivore);
+        frontRightModule.steerMotor.setCanivore(canivore);
+        backLeftModule.steerMotor.setCanivore(canivore);
+        backRightModule.steerMotor.setCanivore(canivore);
 
-        frontLeftModule.getEncoder().setCanivore(canivore);
-        frontRightModule.getEncoder().setCanivore(canivore);
-        backLeftModule.getEncoder().setCanivore(canivore);
-        backRightModule.getEncoder().setCanivore(canivore);
+        frontLeftModule.encoder.setCanivore(canivore);
+        frontRightModule.encoder.setCanivore(canivore);
+        backLeftModule.encoder.setCanivore(canivore);
+        backRightModule.encoder.setCanivore(canivore);
     }
 
     public static void setCanivore(SwerveModule module, String canivore) {
-        module.getDriveMotor().setCanivore(canivore);
-        module.getSteerMotor().setCanivore(canivore);
-        module.getEncoder().setCanivore(canivore);
+        module.driveMotor.setCanivore(canivore);
+        module.steerMotor.setCanivore(canivore);
+        module.encoder.setCanivore(canivore);
     }
 }

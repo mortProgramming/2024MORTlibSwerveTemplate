@@ -6,8 +6,6 @@ import org.mort11.library.Hardware.Brands.REV.CANSparkMaxMotor;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-
 public class Motor implements MotorIntf {
 
     public MotorTypeEnum motorType;
@@ -49,8 +47,8 @@ public class Motor implements MotorIntf {
         motor.setCurrentLimit(limit);
     }
 
-    public void setDirection(boolean direction) {
-        motor.setDirection(direction);
+    public void setDirectionFlip(boolean direction) {
+        motor.setDirectionFlip(direction);
     }
 
     public void setPIDValues(double kP, double kI, double kD) {

@@ -1,8 +1,6 @@
 package org.mort11.configuration;
 
-import static org.mort11.configuration.Inputs.drivetrain;
-
-import org.mort11.commands.autons.pathPlanner.GetPlanned;
+// import org.mort11.commands.autons.pathPlanner.GetPlanned;
 import org.mort11.commands.autons.timed.Taxi;
 import org.mort11.library.Swerve.PathPlanner;
 import org.mort11.subsystems.Drivetrain;
@@ -49,7 +47,7 @@ public class Auto {
 		autoChooser.setDefaultOption("nothing", null);
 
 		autoChooser.addOption("Forward", new Taxi());
-		autoChooser.addOption("Circle", GetPlanned.getCircle());
+		// autoChooser.addOption("Circle", GetPlanned.getCircle());
 	}
 
 	public static Command getAutonomousCommand () {

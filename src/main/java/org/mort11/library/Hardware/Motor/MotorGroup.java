@@ -27,14 +27,14 @@ public class MotorGroup implements MotorIntf {
         motors[motorNumber].setCurrentLimit(limit);
     }
 
-    public void setDirection(boolean direction) {
+    public void setDirectionFlip(boolean direction) {
         for (int i = 0; i < motorCount; i++) {
-            motors[i].setDirection(direction);
+            motors[i].setDirectionFlip(direction);
         }
     }
 
-    public void setDirection(int motorNumber, boolean direction) {
-        motors[motorNumber].setDirection(direction);
+    public void setDirectionFlip(int motorNumber, boolean direction) {
+        motors[motorNumber].setDirectionFlip(direction);
     }
 
     public void setPIDValues(double kP, double kI, double kD) {
@@ -117,5 +117,9 @@ public class MotorGroup implements MotorIntf {
 
     public MotorIntf getMotor (int motorNumber) {
         return motors[motorNumber];
+    }
+
+    public MotorIntf[] getMotor () {
+        return motors;
     }
 }

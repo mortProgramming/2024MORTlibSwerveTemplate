@@ -87,7 +87,7 @@ public class Inputs {
      * @return
      */
     public static double getJoystickX() {
-		return modifyAxis1(joystick.getX(), getThrottle()) * drivetrain.frontLeftModule.getMaxSpeed();
+		return modifyAxis1(joystick.getX(), getThrottle()) * drivetrain.frontLeftModule.maxSpeed;
 	}
 
     /**
@@ -95,7 +95,7 @@ public class Inputs {
      * @return
      */
 	public static double getJoystickY() {
-		return modifyAxis1(joystick.getY(), getThrottle()) * drivetrain.frontLeftModule.getMaxSpeed();
+		return modifyAxis1(joystick.getY(), getThrottle()) * drivetrain.frontLeftModule.maxSpeed;
 	}
 
     /**
@@ -104,20 +104,20 @@ public class Inputs {
      */
 	public static double getJoystickTwist() {
 		return modifyAxisTwist(joystick.getTwist(), getThrottle())
-			    * drivetrain.frontLeftModule.getMaxSpeed() / 
+			    * drivetrain.frontLeftModule.maxSpeed / 
                 DRIVETRAIN_RADII_METERS;
     }
     
     public static double getLeftControllerXSwerve() {
-        return xboxController.getLeftX() * drivetrain.frontLeftModule.getMaxSpeed();
+        return xboxController.getLeftX() * drivetrain.frontLeftModule.maxSpeed;
     }
 
     public static double getLeftControllerYSwerve() {
-        return xboxController.getLeftY() * drivetrain.frontLeftModule.getMaxSpeed();
+        return xboxController.getLeftY() * drivetrain.frontLeftModule.maxSpeed;
     }
     
     public static double getRightControllerXSwerve(){
-        return xboxController.getRightX() * drivetrain.frontLeftModule.getMaxSpeed() / 
+        return xboxController.getRightX() * drivetrain.frontLeftModule.maxSpeed / 
                 DRIVETRAIN_RADII_METERS;
     }
 }

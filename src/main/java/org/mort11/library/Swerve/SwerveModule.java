@@ -108,8 +108,8 @@ public class SwerveModule {
                 break;
         }
 
-        steerMotor.setPIDEnableContinuousInput(-180, 180);
-        steerMotor.setPIDTolerance(1, 400);
+        steerMotor.setPIDEnableContinuousInput(0, 1);
+        steerMotor.setPIDTolerance(0.001, 10000);
 
         switch (moduleType) {
             case MK4i:
@@ -169,37 +169,11 @@ public class SwerveModule {
         return driveMotor.getVelocityRPM();
     }
 
-    public double getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public double getMaxVoltage() {
-        return maxVoltage;
-    }
-
-    public SwerveModuleState getModuleState() {
-        return state;
-    }
-
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
             (driveMotor.getPositionRotations() * rotationToMeters), 
             getEncoderPosition()
         );
-    }
-
-
-
-    public Motor getDriveMotor() {
-        return driveMotor;
-    }
-    
-    public Motor getSteerMotor() {
-        return steerMotor;
-    }
-
-    public Encoder getEncoder() {
-        return encoder;
     }
 
 

@@ -4,7 +4,7 @@ public interface MotorIntf {
 
     public void setCurrentLimit(double limit);
     
-    public void setDirection(boolean direction);
+    public void setDirectionFlip(boolean direction);
 
     public void setPIDValues(double kP, double kI, double kD);
 

@@ -51,10 +51,6 @@ public class IMU implements IMUIntf {
         return imu.getRotation3d();
     }
 
-    public IMUIntf getIMU() {
-        return imu;
-    }
-
     public IMUTypeEnum getIMUType() {
         return imuType;
     }
