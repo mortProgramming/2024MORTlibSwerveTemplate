@@ -7,7 +7,6 @@ package org.mort11.subsystems;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -45,11 +44,11 @@ public class Drivetrain extends SubsystemBase {
   private IMU imu;
 
   private Drivetrain() {
+    // SmartDashboard.putNumber("swerve thing", 7);
+
     configureSwerve();
     
     speeds = new ChassisSpeeds(0, 0, 0);
-
-    Shuffleboard.getTab("dt").add(drivetrain);
   }
 
   public void configureSwerve () {
@@ -87,7 +86,7 @@ public class Drivetrain extends SubsystemBase {
     backRightModule.steerMotor.setDirectionFlip(true);
 
     kinematics = new SwerveDriveKinematics(
-      // Front left
+            // Front left
 			new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
 			// Front right
 			new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0),

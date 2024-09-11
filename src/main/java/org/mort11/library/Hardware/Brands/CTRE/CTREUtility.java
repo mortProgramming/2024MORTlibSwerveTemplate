@@ -1,11 +1,14 @@
 package org.mort11.library.Hardware.Brands.CTRE;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class CTREUtility {
 
-    public static final class Falcon500{
-        public static final double SWERVE_STEER_KP = 1.26;
+    //add the final back later
+    public static class Falcon500{
+        public static final double SWERVE_STEER_KP = SmartDashboard.getNumber("Spinny Wheels", 0);
         public static final double SWERVE_STEER_KI = 0;
-        public static final double SWERVE_STEER_KD = 0.063;
+        public static final double SWERVE_STEER_KD = 0;
 
         public static final double MAX_RPM = 6380;
     }

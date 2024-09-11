@@ -20,6 +20,7 @@ public class IO {
 
     public static void configure() {
         init();
+        Inputs.init();
 
 		// drivetrain.setDefaultCommand(
 		// 	new Drive(Inputs::getJoystickX, Inputs::getJoystickY, Inputs::getJoystickTwist)

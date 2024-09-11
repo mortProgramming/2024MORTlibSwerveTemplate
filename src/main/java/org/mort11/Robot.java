@@ -6,6 +6,8 @@ package org.mort11;
 
 import org.mort11.configuration.Auto;
 import org.mort11.configuration.IO;
+import org.mort11.library.Others.InputRedoes;
+import org.mort11.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -25,6 +27,8 @@ public class Robot extends TimedRobot {
 
   private Alliance alliance = Alliance.Blue;
 
+  private InputRedoes wheelsSpin;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -33,9 +37,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    wheelsSpin = new InputRedoes("Spinny Wheels", 0);
+
     IO.configure();
 
-		Auto.configure();
+	Auto.configure();
   }
 
   /**
@@ -66,7 +72,12 @@ public class Robot extends TimedRobot {
 				alliance = DriverStation.getAlliance().get();
 			}
 		}
-  }
+
+        if (wheelsSpin.getReset()) {
+            Drivetrain.getInstance().configureSwerve();
+        }
+
+    }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

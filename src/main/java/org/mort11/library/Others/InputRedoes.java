@@ -29,7 +29,4 @@ public class InputRedoes {
     public double getNumber () {
         return SmartDashboard.getNumber(key, currentNumber);
     }
-
-
-
 }
