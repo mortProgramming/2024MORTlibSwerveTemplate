@@ -23,14 +23,14 @@ import java.util.function.DoubleSupplier;
 
 import org.mort11.library.Hardware.IMU.IMU;
 import org.mort11.library.Swerve.SwerveModule;
-import org.mort11.library.Swerve.SwerveDrives.OdometeredSwerveDrive;
+import org.mort11.library.Swerve.SwerveDrives.SwerveDrive;
 
 public class Drivetrain extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
   private static Drivetrain drivetrain;
 
-  public OdometeredSwerveDrive swerveDrive;
+  public SwerveDrive swerveDrive;
 
   public SwerveModule frontLeftModule;
   public SwerveModule frontRightModule;
@@ -80,10 +80,10 @@ public class Drivetrain extends SubsystemBase {
       MK4i
     );
 
-    frontLeftModule.steerMotor.setDirectionFlip(true);
-    frontRightModule.steerMotor.setDirectionFlip(true);
-    backLeftModule.steerMotor.setDirectionFlip(true);
-    backRightModule.steerMotor.setDirectionFlip(true);
+    // frontLeftModule.steerMotor.setDirectionFlip(true);
+    // frontRightModule.steerMotor.setDirectionFlip(true);
+    // backLeftModule.steerMotor.setDirectionFlip(true);
+    // backRightModule.steerMotor.setDirectionFlip(true);
 
     kinematics = new SwerveDriveKinematics(
             // Front left
@@ -98,11 +98,16 @@ public class Drivetrain extends SubsystemBase {
 
     imu = new IMU(PIGEON2, IMU_ID);
 
-    swerveDrive = new OdometeredSwerveDrive(
-      frontLeftModule, frontRightModule, 
-      backLeftModule, backRightModule, 
-      kinematics, imu
-    );
+    // swerveDrive = new OdometeredSwerveDrive(
+    //   frontLeftModule, frontRightModule, 
+    //   backLeftModule, backRightModule, 
+    //   kinematics, imu
+    // );
+
+    swerveDrive = new SwerveDrive(
+            frontLeftModule, frontRightModule,
+            backLeftModule, backRightModule,
+            kinematics);
 
     swerveDrive.setOffsets(FRONT_LEFT_OFFSET, FRONT_RIGHT_OFFSET, BACK_LEFT_OFFSET, BACK_RIGHT_OFFSET);
 
@@ -120,25 +125,25 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
-  public Command zeroIMUCommand(double angle) {
-    return new InstantCommand(() -> swerveDrive.zeroIMU(angle), drivetrain);
-  }
+//   public Command zeroIMUCommand(double angle) {
+//     return new InstantCommand(() -> swerveDrive.zeroIMU(angle), drivetrain);
+//   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
-    swerveDrive.setOrientedVelocity(speeds);
-    // swerveDrive.setVelocity(speeds);
+    // swerveDrive.setOrientedVelocity(speeds);
+    swerveDrive.setVelocity(speeds);
     // swerveDrive.setOrientedVelocity(new ChassisSpeeds(0, 0, 0));
-    swerveDrive.update();
+    // swerveDrive.update();
 
-    SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
-    SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
+    // SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
+    // SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
 
-    SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
-    SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
-    SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
+    // SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
+    // SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
+    // SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
   }
 
   public static Drivetrain getInstance() {

@@ -15,11 +15,16 @@ public final class PhysicalConstants {
 			DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0
 		);
 
-		public static final int FRONT_LEFT_OFFSET = 0;
-		public static final int FRONT_RIGHT_OFFSET = 0;
-		public static final int BACK_LEFT_OFFSET = 0;
-		public static final int BACK_RIGHT_OFFSET = 0;
+		public static final double FRONT_LEFT_OFFSET = 4.3;
+		public static final double FRONT_RIGHT_OFFSET = 4.3;
+		public static final double BACK_LEFT_OFFSET = 2.98;
+		public static final double BACK_RIGHT_OFFSET = -4.04;
 
-		public static final int IMU_TO_ROBOT_FRONT_ANGLE = 0;
+        // public static final double FRONT_LEFT_OFFSET = 0;
+        // public static final double FRONT_RIGHT_OFFSET = 0;
+        // public static final double BACK_LEFT_OFFSET = 0;
+        // public static final double BACK_RIGHT_OFFSET = 0;
+
+		public static final double IMU_TO_ROBOT_FRONT_ANGLE = 0;
     }
 }

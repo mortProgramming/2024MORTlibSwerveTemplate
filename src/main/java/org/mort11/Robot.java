@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 
   private Alliance alliance = Alliance.Blue;
 
-  private InputRedoes wheelsSpin;
+//   private InputRedoes wheelsSpin;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    wheelsSpin = new InputRedoes("Spinny Wheels", 0);
+    // wheelsSpin = new InputRedoes("Spinny Wheels", 0);
 
     IO.configure();
 
@@ -73,9 +73,9 @@ public class Robot extends TimedRobot {
 			}
 		}
 
-        if (wheelsSpin.getReset()) {
-            Drivetrain.getInstance().configureSwerve();
-        }
+        // if (wheelsSpin.getReset()) {
+        //     Drivetrain.getInstance().configureSwerve();
+        // }
 
     }
 

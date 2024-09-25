@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import static org.mort11.configuration.constants.PhysicalConstants.DrivetrainConstants.IMU_TO_ROBOT_FRONT_ANGLE;
 
+import org.mort11.commands.actions.drivetrain.Drive;
+
 public class IO {
 
 	private static Drivetrain drivetrain;
@@ -28,18 +30,18 @@ public class IO {
         // drivetrain.setDefaultCommand(
 		// 	drivetrain.driveCommand(Inputs::getJoystickX, Inputs::getJoystickY, Inputs::getJoystickTwist)
         // );
-        // drivetrain.setDefaultCommand(
-        //     new Drive(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
-        // );
         drivetrain.setDefaultCommand(
-            drivetrain.driveCommand(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
+            new Drive(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
         );
+        // drivetrain.setDefaultCommand(
+        //     drivetrain.driveCommand(Inputs::getLeftControllerXSwerve, Inputs::getLeftControllerYSwerve, Inputs::getRightControllerXSwerve)
+        // );
 
         // joystick.button(0).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.zeroIMU(IMU_TO_ROBOT_FRONT_ANGLE)));
-        joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));
+        // joystick.button(0).whileTrue(drivetrain.zeroIMUCommand(IMU_TO_ROBOT_FRONT_ANGLE));
 
-        joystick.button(1).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.resetPosition(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0))
-        )));
+        // joystick.button(1).whileTrue(new InstantCommand(() -> drivetrain.swerveDrive.resetPosition(
+        //     new Pose2d(0, 0, Rotation2d.fromDegrees(0))
+        // )));
     }
 }

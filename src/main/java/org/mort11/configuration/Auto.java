@@ -1,7 +1,7 @@
 package org.mort11.configuration;
 
 // import org.mort11.commands.autons.pathPlanner.GetPlanned;
-import org.mort11.commands.autons.timed.Taxi;
+// import org.mort11.commands.autons.timed.Taxi;
 import org.mort11.library.Swerve.PathPlanner;
 import org.mort11.subsystems.Drivetrain;
 import static org.mort11.configuration.constants.PIDConstants.DrivetrainConstants.*;
@@ -29,11 +29,11 @@ public class Auto {
 		drivetrain = Drivetrain.getInstance();
 
         autoChooser = new SendableChooser<Command>();
-		PathPlanner.configure(drivetrain, drivetrain.swerveDrive, 
-			new PIDConstants(PLANNER_TRANSLATIONAL_KP, PLANNER_TRANSLATIONAL_KI, PLANNER_TRANSLATIONAL_KD), 
-			new PIDConstants(PLANNER_ROTATIONAL_KP, PLANNER_ROTATIONAL_KI, PLANNER_ROTATIONAL_KD), 
-			DRIVETRAIN_RADII_METERS
-		);
+		// PathPlanner.configure(drivetrain, drivetrain.swerveDrive, 
+		// 	new PIDConstants(PLANNER_TRANSLATIONAL_KP, PLANNER_TRANSLATIONAL_KI, PLANNER_TRANSLATIONAL_KD), 
+		// 	new PIDConstants(PLANNER_ROTATIONAL_KP, PLANNER_ROTATIONAL_KI, PLANNER_ROTATIONAL_KD), 
+		// 	DRIVETRAIN_RADII_METERS
+		// );
 		addAutoOptions();
 		SmartDashboard.putData(autoChooser);
 
@@ -46,7 +46,7 @@ public class Auto {
 	public static void addAutoOptions () {
 		autoChooser.setDefaultOption("nothing", null);
 
-		autoChooser.addOption("Forward", new Taxi());
+		// autoChooser.addOption("Forward", new Taxi());
 		// autoChooser.addOption("Circle", GetPlanned.getCircle());
 	}
 
