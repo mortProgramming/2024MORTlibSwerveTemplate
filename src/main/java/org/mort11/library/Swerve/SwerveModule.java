@@ -109,7 +109,8 @@ public class SwerveModule {
         }
 
         steerMotor.setPIDEnableContinuousInput(0, 1);
-        steerMotor.setPIDTolerance(0.1, 100000);
+        // steerMotor.setPIDTolerance(0.1, 100000);
+        steerMotor.setPIDTolerance(15);
 
         switch (moduleType) {
             case MK4i:

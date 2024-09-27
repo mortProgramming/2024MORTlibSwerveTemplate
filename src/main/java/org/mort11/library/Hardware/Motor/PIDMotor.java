@@ -24,6 +24,10 @@ public class PIDMotor extends Motor {
         controller.disableContinuousInput();
     }
 
+    public void setPIDTolerance(double position) {
+        controller.setTolerance(position);
+    }
+
     public void setPIDTolerance(double position, double velocity) {
         controller.setTolerance(position, velocity);
     }

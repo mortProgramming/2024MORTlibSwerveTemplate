@@ -7,7 +7,7 @@ public class CTREUtility {
     //add the final back later
     public static class Falcon500{
         // public static final double SWERVE_STEER_KP = SmartDashboard.getNumber("Spinny Wheels", 0);
-        public static final double SWERVE_STEER_KP = 5;
+        public static final double SWERVE_STEER_KP = 3;
         public static final double SWERVE_STEER_KI = 0;
         public static final double SWERVE_STEER_KD = 0;
 
