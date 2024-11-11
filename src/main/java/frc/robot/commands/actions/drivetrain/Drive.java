@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-
-import frc.robot.subsystems.Drivetrain;
+package frc.robot.commands.actions.drivetrain;
 
 import java.util.function.DoubleSupplier;
+
+import frc.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,8 +24,8 @@ public class Drive extends Command {
     drivetrain =  Drivetrain.getInstance();
 
     this.wantedX = wantedX;
-    this.wantedX = wantedY;
-    this.wantedX = wantedTheta;
+    this.wantedY = wantedY;
+    this.wantedTheta = wantedTheta;
 
     addRequirements(drivetrain);
   }
@@ -37,11 +37,11 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(
-      ChassisSpeeds.fromFieldRelativeSpeeds(
+    drivetrain.setDrive(
+      new ChassisSpeeds(
         wantedX.getAsDouble(),
-				wantedY.getAsDouble(), wantedTheta.getAsDouble(),
-				drivetrain.getGyroscopeRotation()
+				wantedY.getAsDouble(), 
+        wantedTheta.getAsDouble()
       )
     );
   }
@@ -49,18 +49,14 @@ public class Drive extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drive(
-      new ChassisSpeeds(
-        0, 
-        0, 
-        0
-      )
+    drivetrain.setDrive(
+      new ChassisSpeeds(0, 0, 0)
     );
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

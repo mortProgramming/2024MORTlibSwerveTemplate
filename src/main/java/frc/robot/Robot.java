@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import frc.robot.config.Auto;
+import frc.robot.config.IO;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,9 +20,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private Alliance alliance = Alliance.Blue;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,9 +31,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    IO.configure();
+
+		Auto.configure();
   }
 
   /**
@@ -51,12 +59,19 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    if(DriverStation.isDSAttached() && DriverStation.isFMSAttached()){
+			if (DriverStation.getAlliance().get() != alliance){
+				Auto.configure();
+				alliance = DriverStation.getAlliance().get();
+			}
+		}
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = Auto.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

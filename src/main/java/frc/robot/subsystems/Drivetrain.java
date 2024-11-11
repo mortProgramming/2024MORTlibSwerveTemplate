@@ -8,72 +8,78 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.MORTlib.Test.Swerve.Odometer;
-import com.MORTlib.Test.Swerve.SwerveDrive;
-import com.MORTlib.Test.Swerve.SwerveModule;
-import static com.MORTlib.Test.Hardware.MotorTypeEnum.*;
-import static com.MORTlib.Test.Hardware.EncoderTypeEnum.*;
-import static com.MORTlib.Test.Swerve.ModuleTypeEnum.*;
-import static frc.robot.utility.constants.PortConstants.DrivetrainConstants.*;
-import static frc.robot.utility.constants.PhysicalConstants.DrivetrainConstants.*;
+import static frc.robot.config.constants.PhysicalConstants.Drivetrain.*;
+import static frc.robot.config.constants.PortConstants.Drivetrain.*;
+import static com.MORTlib.hardware.encoder.EncoderTypeEnum.*;
+import static com.MORTlib.hardware.imu.IMUTypeEnum.*;
+import static com.MORTlib.hardware.motor.MotorTypeEnum.*;
+import static com.MORTlib.swerve.ModuleTypeEnum.*;
 
-import com.kauailabs.navx.frc.AHRS;
+import frc.robot.config.IO;
+import com.MORTlib.hardware.imu.IMU;
+import com.MORTlib.swerve.SwerveModule;
+import com.MORTlib.swerve.swervedrives.OdometeredSwerveDrive;
 
 public class Drivetrain extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-
   private static Drivetrain drivetrain;
 
-  public SwerveDrive swerveDrive;
+  private OdometeredSwerveDrive swerveDrive;
 
-  public SwerveModule frontLeftModule;
-  public SwerveModule frontRightModule;
-  public SwerveModule backLeftModule;
-  public SwerveModule backRightModule;
+  private SwerveModule frontLeftModule;
+  private SwerveModule frontRightModule;
+  private SwerveModule backLeftModule;
+  private SwerveModule backRightModule;
 
-  public SwerveDriveKinematics kinematics;
+  private SwerveDriveKinematics kinematics;
 
   private ChassisSpeeds speeds;
 
-  private AHRS navX;
+  private IMU imu;
 
-  private double fieldOrientationOffset;
+  private Drivetrain() {
+    configureSwerve();
+    
+    speeds = new ChassisSpeeds(0, 0, 0);
+  }
 
-  public Odometer odometer;
-
-  public Drivetrain() {
+  public void configureSwerve () {
     frontLeftModule = new SwerveModule(
-    KRAKEN, FRONT_LEFT_DRIVE_ID, 
-    KRAKEN, FRONT_LEFT_STEER_ID, 
-    CANCODER, FRONT_LEFT_ENCODER_ID, 
-    MK4i);
-    frontLeftModule.setOffset(FRONT_LEFT_OFFSET);
+      FALCON, FRONT_LEFT_DRIVE_MOTOR, 
+      FALCON, FRONT_LEFT_STEER_MOTOR, 
+      CANCODER, FRONT_LEFT_ENCODER, 
+      MK4i
+    );
 
     frontRightModule = new SwerveModule(
-    KRAKEN, FRONT_RIGHT_DRIVE_ID, 
-    KRAKEN, FRONT_RIGHT_STEER_ID, 
-    CANCODER, FRONT_RIGHT_ENCODER_ID, 
-    MK4i);
-    frontRightModule.setOffset(FRONT_RIGHT_OFFSET);
+      FALCON, FRONT_RIGHT_DRIVE_MOTOR, 
+      FALCON, FRONT_RIGHT_STEER_MOTOR, 
+      CANCODER, FRONT_RIGHT_ENCODER, 
+      MK4i
+    );
 
     backLeftModule = new SwerveModule(
-    KRAKEN, BACK_LEFT_DRIVE_ID, 
-    KRAKEN, BACK_LEFT_STEER_ID, 
-    CANCODER, BACK_LEFT_ENCODER_ID, 
-    MK4i);
-    backLeftModule.setOffset(BACK_LEFT_OFFSET);
+      FALCON, BACK_LEFT_DRIVE_MOTOR, 
+      FALCON, BACK_LEFT_STEER_MOTOR, 
+      CANCODER, BACK_LEFT_ENCODER, 
+      MK4i
+    );
 
     backRightModule = new SwerveModule(
-    KRAKEN, BACK_RIGHT_DRIVE_ID, 
-    KRAKEN, BACK_RIGHT_STEER_ID, 
-    CANCODER, BACK_RIGHT_ENCODER_ID, 
-    MK4i);
-    backRightModule.setOffset(BACK_RIGHT_OFFSET);
+      FALCON, BACK_RIGHT_DRIVE_MOTOR, 
+      FALCON, BACK_RIGHT_STEER_MOTOR, 
+      CANCODER, BACK_RIGHT_ENCODER, 
+      MK4i
+    );
+
+    frontLeftModule.steerMotor.setDirectionFlip(true);
+    frontRightModule.steerMotor.setDirectionFlip(true);
+    backLeftModule.steerMotor.setDirectionFlip(true);
+    backRightModule.steerMotor.setDirectionFlip(true);
 
     kinematics = new SwerveDriveKinematics(
       // Front left
@@ -86,62 +92,81 @@ public class Drivetrain extends SubsystemBase {
 			new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
     );
 
-    swerveDrive = new SwerveDrive(
+    imu = new IMU(PIGEON2, IMU_ID);
+
+    swerveDrive = new OdometeredSwerveDrive(
       frontLeftModule, frontRightModule, 
       backLeftModule, backRightModule, 
-      kinematics
+      kinematics, imu
     );
 
-    navX = new AHRS(SPI.Port.kMXP);
+    swerveDrive.setOffsets(FRONT_LEFT_OFFSET, FRONT_RIGHT_OFFSET, BACK_LEFT_OFFSET, BACK_RIGHT_OFFSET);
 
-    odometer = new Odometer(swerveDrive);
-  }
-
-  public void drive(ChassisSpeeds speeds) {
-    this.speeds = speeds;
-  }
-
-  public void zeroGyroscope(double angle) {
-		fieldOrientationOffset = navX.getAngle()+angle;
-	}
-
-  public Rotation2d getGyroscopeRotation() {
-		if (navX.isMagnetometerCalibrated()) {
-			// We will only get valid fused headings if the magnetometer is calibrated
-			return Rotation2d.fromDegrees(360.0 - (navX.getFusedHeading()-fieldOrientationOffset));
-		}
-
-		// We have to invert the angle of the NavX so that rotating the robot
-		// counter-clockwise
-		// makes the angle increase.
-		return Rotation2d.fromDegrees(360.0 - navX.getYaw()-fieldOrientationOffset);
-	}
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+    swerveDrive.setCanivore(CANIVORE_NAME);
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+	public void periodic() {
+		if (IO.getIsBlue()) {
+			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+				speeds.vyMetersPerSecond,-speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond, 
+				swerveDrive.getFieldRelativeAngle2d()
+			);
+		}
+		else {
+			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+				-speeds.vyMetersPerSecond,speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond, 
+				swerveDrive.getFieldRelativeAngle2d()
+			);
+		}
 
-    swerveDrive.setVelocity(speeds);
-    odometer.update(getGyroscopeRotation(), swerveDrive);
+		swerveDrive.setOrientedVelocity(speeds);
 
-    SmartDashboard.putNumber("XPose", odometer.swervePose.getEstimatedPosition().getX());
-    SmartDashboard.putNumber("YPose", odometer.swervePose.getEstimatedPosition().getY());
+    swerveDrive.update();
+
+    SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
+    SmartDashboard.putNumber("YPose", swerveDrive.getPosition().getY());
+
+    SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
+    SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
+    SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
+	}
+
+  public void setDrive(ChassisSpeeds speeds) {
+    this.speeds = speeds;
   }
+
+  public Command setGyroscopeZero(double angle) {
+		return new InstantCommand(() -> swerveDrive.zeroIMU(angle));
+	}
+
+
+
+	public ChassisSpeeds getChassisSpeeds() {
+        return speeds;
+    }
+
+	public double getMaxSpeedMeters() {
+		return frontLeftModule.maxSpeed;
+	}
+	
+	public OdometeredSwerveDrive getSwerveDrive() {
+		return swerveDrive;
+	}
+
+	public SwerveDriveKinematics getDriveKinematics() {
+		return kinematics;
+	}
+
+	public Rotation2d getRotation2d() {
+		return imu.getRotation2d();
+	}
 
   public static Drivetrain getInstance() {
 		if (drivetrain == null) {
 			drivetrain = new Drivetrain();
-			Shuffleboard.getTab("dt").add(drivetrain);
 		}
 		return drivetrain;
 	}
