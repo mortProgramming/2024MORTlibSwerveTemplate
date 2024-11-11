@@ -1,4 +1,4 @@
-package org.mort11.mortlib.hardware.encoder;
+package frc.robot.mortlib.hardware.encoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 

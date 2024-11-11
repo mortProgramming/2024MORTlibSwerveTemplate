@@ -1,6 +1,6 @@
-package org.mort11.commands.autons.pathplanned;
+package frc.robot.commands.autons.pathplanned;
 
-import org.mort11.commands.autons.pathplanned.paths.Rest;
+import frc.robot.commands.autons.pathplanned.paths.Rest;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 

@@ -1,4 +1,4 @@
-package org.mort11.mortlib.hardware.motor;
+package frc.robot.mortlib.hardware.motor;
 
 public interface MotorIntf {
 

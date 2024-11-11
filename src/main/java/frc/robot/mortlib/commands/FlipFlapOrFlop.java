@@ -1,10 +1,10 @@
-package org.mort11.mortlib.commands;
+package frc.robot.mortlib.commands;
 
-import static org.mort11.mortlib.others.Ternary.*;
+import static frc.robot.mortlib.others.Ternary.*;
 
 import java.util.function.BooleanSupplier;
 
-import org.mort11.mortlib.others.Ternary;
+import frc.robot.mortlib.others.Ternary;
 
 import edu.wpi.first.wpilibj2.command.Command;
 

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.mort11.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,17 +13,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static org.mort11.config.constants.PhysicalConstants.Drivetrain.*;
-import static org.mort11.config.constants.PortConstants.Drivetrain.*;
-import static org.mort11.mortlib.hardware.encoder.EncoderTypeEnum.*;
-import static org.mort11.mortlib.hardware.imu.IMUTypeEnum.*;
-import static org.mort11.mortlib.hardware.motor.MotorTypeEnum.*;
-import static org.mort11.mortlib.swerve.ModuleTypeEnum.*;
+import static frc.robot.config.constants.PhysicalConstants.Drivetrain.*;
+import static frc.robot.config.constants.PortConstants.Drivetrain.*;
+import static frc.robot.mortlib.hardware.encoder.EncoderTypeEnum.*;
+import static frc.robot.mortlib.hardware.imu.IMUTypeEnum.*;
+import static frc.robot.mortlib.hardware.motor.MotorTypeEnum.*;
+import static frc.robot.mortlib.swerve.ModuleTypeEnum.*;
 
-import org.mort11.config.IO;
-import org.mort11.mortlib.hardware.imu.IMU;
-import org.mort11.mortlib.swerve.SwerveModule;
-import org.mort11.mortlib.swerve.swervedrives.OdometeredSwerveDrive;
+import frc.robot.config.IO;
+import frc.robot.mortlib.hardware.imu.IMU;
+import frc.robot.mortlib.swerve.SwerveModule;
+import frc.robot.mortlib.swerve.swervedrives.OdometeredSwerveDrive;
 
 public class Drivetrain extends SubsystemBase {
   private static Drivetrain drivetrain;
@@ -108,17 +108,15 @@ public class Drivetrain extends SubsystemBase {
   @Override
 	public void periodic() {
 		if (IO.getIsBlue()) {
-			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-				speeds.vyMetersPerSecond,-speeds.vxMetersPerSecond,
-				speeds.omegaRadiansPerSecond, 
-				swerveDrive.getFieldRelativeAngle2d()
+			speeds = new ChassisSpeeds(
+				speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond
 			);
 		}
 		else {
-			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-				-speeds.vyMetersPerSecond,speeds.vxMetersPerSecond,
-				speeds.omegaRadiansPerSecond, 
-				swerveDrive.getFieldRelativeAngle2d()
+			speeds = new ChassisSpeeds(
+				-speeds.vyMetersPerSecond, speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond
 			);
 		}
 

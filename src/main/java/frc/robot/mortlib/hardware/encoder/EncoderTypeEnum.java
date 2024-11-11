@@ -1,4 +1,4 @@
-package org.mort11.mortlib.hardware.encoder;
+package frc.robot.mortlib.hardware.encoder;
 
 public enum EncoderTypeEnum {
     CANCODER

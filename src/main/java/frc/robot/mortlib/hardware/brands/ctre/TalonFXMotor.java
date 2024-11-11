@@ -1,6 +1,6 @@
-package org.mort11.mortlib.hardware.brands.ctre;
+package frc.robot.mortlib.hardware.brands.ctre;
 
-import org.mort11.mortlib.hardware.motor.MotorIntf;
+import frc.robot.mortlib.hardware.motor.MotorIntf;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;

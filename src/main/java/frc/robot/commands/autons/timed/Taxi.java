@@ -1,6 +1,6 @@
-package org.mort11.commands.autons.timed;
+package frc.robot.commands.autons.timed;
 
-import org.mort11.commands.actions.drivetrain.TimedDrive;
+import frc.robot.commands.actions.drivetrain.TimedDrive;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 

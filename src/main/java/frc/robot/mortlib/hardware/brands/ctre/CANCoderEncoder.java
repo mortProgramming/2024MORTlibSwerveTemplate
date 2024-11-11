@@ -1,6 +1,6 @@
-package org.mort11.mortlib.hardware.brands.ctre;
+package frc.robot.mortlib.hardware.brands.ctre;
 
-import org.mort11.mortlib.hardware.encoder.EncoderIntf;
+import frc.robot.mortlib.hardware.encoder.EncoderIntf;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 

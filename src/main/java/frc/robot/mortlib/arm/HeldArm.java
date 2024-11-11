@@ -1,8 +1,8 @@
-package org.mort11.mortlib.arm;
+package frc.robot.mortlib.arm;
 
-import org.mort11.mortlib.hardware.motor.Motor;
-import org.mort11.mortlib.hardware.motor.MotorIntf;
-import org.mort11.mortlib.hardware.motor.MotorTypeEnum;
+import frc.robot.mortlib.hardware.motor.Motor;
+import frc.robot.mortlib.hardware.motor.MotorIntf;
+import frc.robot.mortlib.hardware.motor.MotorTypeEnum;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 

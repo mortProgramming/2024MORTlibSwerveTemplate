@@ -1,4 +1,4 @@
-package org.mort11.mortlib.hardware.imu;
+package frc.robot.mortlib.hardware.imu;
 
 public enum IMUTypeEnum {
     PIGEON2, NAVX2

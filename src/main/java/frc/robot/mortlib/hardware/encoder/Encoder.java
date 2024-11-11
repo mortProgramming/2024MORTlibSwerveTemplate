@@ -1,6 +1,6 @@
-package org.mort11.mortlib.hardware.encoder;
+package frc.robot.mortlib.hardware.encoder;
 
-import org.mort11.mortlib.hardware.brands.ctre.CANCoderEncoder;
+import frc.robot.mortlib.hardware.brands.ctre.CANCoderEncoder;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 

@@ -1,8 +1,8 @@
-package org.mort11.mortlib.hardware.brands.rev;
+package frc.robot.mortlib.hardware.brands.rev;
 
 import com.revrobotics.CANSparkMax;
 
-import org.mort11.mortlib.hardware.motor.MotorIntf;
+import frc.robot.mortlib.hardware.motor.MotorIntf;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.SparkPIDController;

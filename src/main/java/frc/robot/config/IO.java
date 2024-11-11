@@ -1,8 +1,8 @@
-package org.mort11.config;
+package frc.robot.config;
 
-import org.mort11.commands.actions.drivetrain.Drive;
-import org.mort11.subsystems.Drivetrain;
-import static org.mort11.config.Inputs.*;
+import frc.robot.commands.actions.drivetrain.Drive;
+import frc.robot.subsystems.Drivetrain;
+import static frc.robot.config.Inputs.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
-import static org.mort11.config.constants.PhysicalConstants.Drivetrain.*;
+import static frc.robot.config.constants.PhysicalConstants.Drivetrain.*;
 
 public class IO {
 

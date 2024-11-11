@@ -1,11 +1,11 @@
-package org.mort11.config;
+package frc.robot.config;
 
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import static org.mort11.config.constants.PhysicalConstants.Drivetrain.*;
+import static frc.robot.config.constants.PhysicalConstants.Drivetrain.*;
 
-import static org.mort11.config.constants.PortConstants.Controller.*;
-import org.mort11.subsystems.Drivetrain;
+import static frc.robot.config.constants.PortConstants.Controller.*;
+import frc.robot.subsystems.Drivetrain;
 
 public class Inputs {
 

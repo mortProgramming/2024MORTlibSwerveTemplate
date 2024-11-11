@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.mort11;
+package frc.robot;
 
-import org.mort11.config.Auto;
-import org.mort11.config.IO;
+import frc.robot.config.Auto;
+import frc.robot.config.IO;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
