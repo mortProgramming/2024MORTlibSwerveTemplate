@@ -106,19 +106,17 @@ public class Drivetrain extends SubsystemBase {
   }
 
   @Override
-	public void periodic() {
-		if (IO.getIsBlue()) {
-			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-				speeds.vyMetersPerSecond,-speeds.vxMetersPerSecond,
-				speeds.omegaRadiansPerSecond, 
-				swerveDrive.getFieldRelativeAngle2d()
+  public void periodic() {
+    if (IO.getIsBlue()) {
+			speeds = new ChassisSpeeds(
+				speeds.vyMetersPerSecond, -speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond
 			);
 		}
 		else {
-			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-				-speeds.vyMetersPerSecond,speeds.vxMetersPerSecond,
-				speeds.omegaRadiansPerSecond, 
-				swerveDrive.getFieldRelativeAngle2d()
+			speeds = new ChassisSpeeds(
+				-speeds.vyMetersPerSecond, speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond
 			);
 		}
 
@@ -132,7 +130,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
     SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
     SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
-	}
+  }
 
   public void setDrive(ChassisSpeeds speeds) {
     this.speeds = speeds;
