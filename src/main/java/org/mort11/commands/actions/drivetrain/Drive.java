@@ -37,22 +37,19 @@ public class Drive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(
+    drivetrain.setDrive(
       new ChassisSpeeds(
         wantedX.getAsDouble(),
 				wantedY.getAsDouble(), 
         wantedTheta.getAsDouble()
       )
     );
-
-    System.out.println("hi");
-    System.out.println(drivetrain.swerveDrive.getFieldRelativeAngle());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.drive(
+    drivetrain.setDrive(
       new ChassisSpeeds(0, 0, 0)
     );
   }

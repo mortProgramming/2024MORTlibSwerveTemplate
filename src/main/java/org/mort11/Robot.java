@@ -4,8 +4,8 @@
 
 package org.mort11;
 
-import org.mort11.configuration.Auto;
-import org.mort11.configuration.IO;
+import org.mort11.config.Auto;
+import org.mort11.config.IO;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;

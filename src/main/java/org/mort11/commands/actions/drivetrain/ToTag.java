@@ -21,12 +21,8 @@ public class ToTag  extends Command {
         vision = Vision.getInstance();
     }
 
-    public void initialize () {
-
-    }
-
     public void execute () {
-        drivetrain.swerveDrive.moveToPosition(vision.getTagPosition(tagNumber));
+        drivetrain.getSwerveDrive().moveToPosition(vision.getTagPosition(tagNumber));
     }
 
     public boolean isFinished () {
@@ -34,7 +30,7 @@ public class ToTag  extends Command {
     }
 
     public void end(boolean interrupted) {
-        drivetrain.drive(
+        drivetrain.setDrive(
             new ChassisSpeeds(0, 0, 0)
         );
     }

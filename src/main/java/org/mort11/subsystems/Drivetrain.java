@@ -4,41 +4,38 @@
 
 package org.mort11.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static org.mort11.configuration.constants.PhysicalConstants.DrivetrainConstants.*;
-import static org.mort11.configuration.constants.PortConstants.DrivetrainConstants.*;
-import static org.mort11.library.Hardware.Encoder.EncoderTypeEnum.*;
-import static org.mort11.library.Hardware.IMU.IMUTypeEnum.*;
-import static org.mort11.library.Hardware.Motor.MotorTypeEnum.*;
-import static org.mort11.library.Swerve.ModuleTypeEnum.*;
+import static org.mort11.config.constants.PhysicalConstants.Drivetrain.*;
+import static org.mort11.config.constants.PortConstants.Drivetrain.*;
+import static org.mort11.mortlib.hardware.encoder.EncoderTypeEnum.*;
+import static org.mort11.mortlib.hardware.imu.IMUTypeEnum.*;
+import static org.mort11.mortlib.hardware.motor.MotorTypeEnum.*;
+import static org.mort11.mortlib.swerve.ModuleTypeEnum.*;
 
-import java.util.function.DoubleSupplier;
-
-import org.mort11.library.Hardware.IMU.IMU;
-import org.mort11.library.Swerve.SwerveModule;
-import org.mort11.library.Swerve.SwerveDrives.OdometeredSwerveDrive;
+import org.mort11.config.IO;
+import org.mort11.mortlib.hardware.imu.IMU;
+import org.mort11.mortlib.swerve.SwerveModule;
+import org.mort11.mortlib.swerve.swervedrives.OdometeredSwerveDrive;
 
 public class Drivetrain extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-
   private static Drivetrain drivetrain;
 
   public OdometeredSwerveDrive swerveDrive;
 
-  public SwerveModule frontLeftModule;
-  public SwerveModule frontRightModule;
-  public SwerveModule backLeftModule;
-  public SwerveModule backRightModule;
+  private SwerveModule frontLeftModule;
+  private SwerveModule frontRightModule;
+  private SwerveModule backLeftModule;
+  private SwerveModule backRightModule;
 
-  public SwerveDriveKinematics kinematics;
+  private SwerveDriveKinematics kinematics;
 
   private ChassisSpeeds speeds;
 
@@ -48,36 +45,34 @@ public class Drivetrain extends SubsystemBase {
     configureSwerve();
     
     speeds = new ChassisSpeeds(0, 0, 0);
-
-    Shuffleboard.getTab("dt").add(drivetrain);
   }
 
   public void configureSwerve () {
     frontLeftModule = new SwerveModule(
-      FALCON, FRONT_LEFT_DRIVE_ID, 
-      FALCON, FRONT_LEFT_STEER_ID, 
-      CANCODER, FRONT_LEFT_ENCODER_ID, 
+      FALCON, FRONT_LEFT_DRIVE_MOTOR, 
+      FALCON, FRONT_LEFT_STEER_MOTOR, 
+      CANCODER, FRONT_LEFT_ENCODER, 
       MK4i
     );
 
     frontRightModule = new SwerveModule(
-      FALCON, FRONT_RIGHT_DRIVE_ID, 
-      FALCON, FRONT_RIGHT_STEER_ID, 
-      CANCODER, FRONT_RIGHT_ENCODER_ID, 
+      FALCON, FRONT_RIGHT_DRIVE_MOTOR, 
+      FALCON, FRONT_RIGHT_STEER_MOTOR, 
+      CANCODER, FRONT_RIGHT_ENCODER, 
       MK4i
     );
 
     backLeftModule = new SwerveModule(
-      FALCON, BACK_LEFT_DRIVE_ID, 
-      FALCON, BACK_LEFT_STEER_ID, 
-      CANCODER, BACK_LEFT_ENCODER_ID, 
+      FALCON, BACK_LEFT_DRIVE_MOTOR, 
+      FALCON, BACK_LEFT_STEER_MOTOR, 
+      CANCODER, BACK_LEFT_ENCODER, 
       MK4i
     );
 
     backRightModule = new SwerveModule(
-      FALCON, BACK_RIGHT_DRIVE_ID, 
-      FALCON, BACK_RIGHT_STEER_ID, 
-      CANCODER, BACK_RIGHT_ENCODER_ID, 
+      FALCON, BACK_RIGHT_DRIVE_MOTOR, 
+      FALCON, BACK_RIGHT_STEER_MOTOR, 
+      CANCODER, BACK_RIGHT_ENCODER, 
       MK4i
     );
 
@@ -110,28 +105,25 @@ public class Drivetrain extends SubsystemBase {
     swerveDrive.setCanivore(CANIVORE_NAME);
   }
 
-  public void drive(ChassisSpeeds speeds) {
-    this.speeds = speeds;
-  }
-
-  public Command driveCommand(DoubleSupplier joystickX, DoubleSupplier joystickY, DoubleSupplier joystickTwist) {
-    return new InstantCommand(() -> drive(
-        new ChassisSpeeds(joystickX.getAsDouble(), joystickY.getAsDouble(), joystickTwist.getAsDouble())
-      ), drivetrain
-    );
-  }
-
-  public Command zeroIMUCommand(double angle) {
-    return new InstantCommand(() -> swerveDrive.zeroIMU(angle), drivetrain);
-  }
-
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+	public void periodic() {
+		if (IO.getIsBlue()) {
+			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+				speeds.vyMetersPerSecond,-speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond, 
+				swerveDrive.getFieldRelativeAngle2d()
+			);
+		}
+		else {
+			speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+				-speeds.vyMetersPerSecond,speeds.vxMetersPerSecond,
+				speeds.omegaRadiansPerSecond, 
+				swerveDrive.getFieldRelativeAngle2d()
+			);
+		}
 
-    swerveDrive.setOrientedVelocity(speeds);
-    // swerveDrive.setVelocity(speeds);
-    // swerveDrive.setOrientedVelocity(new ChassisSpeeds(0, 0, 0));
+		swerveDrive.setOrientedVelocity(speeds);
+
     swerveDrive.update();
 
     SmartDashboard.putNumber("XPose", swerveDrive.getPosition().getX());
@@ -140,7 +132,37 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Yaw", Math.toDegrees(swerveDrive.getRobotRotations().getZ()));
     SmartDashboard.putNumber("Pitch", Math.toDegrees(swerveDrive.getRobotRotations().getY()));
     SmartDashboard.putNumber("Roll", Math.toDegrees(swerveDrive.getRobotRotations().getX()));
+	}
+
+  public void setDrive(ChassisSpeeds speeds) {
+    this.speeds = speeds;
   }
+
+  public Command setGyroscopeZero(double angle) {
+		return new InstantCommand(() -> swerveDrive.zeroIMU(angle));
+	}
+
+
+
+	public ChassisSpeeds getChassisSpeeds() {
+        return speeds;
+    }
+
+	public double getMaxSpeedMeters() {
+		return frontLeftModule.maxSpeed;
+	}
+	
+	public OdometeredSwerveDrive getSwerveDrive() {
+		return swerveDrive;
+	}
+
+	public SwerveDriveKinematics getDriveKinematics() {
+		return kinematics;
+	}
+
+	public Rotation2d getRotation2d() {
+		return imu.getRotation2d();
+	}
 
   public static Drivetrain getInstance() {
 		if (drivetrain == null) {
