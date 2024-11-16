@@ -52,28 +52,28 @@ public class Drivetrain extends SubsystemBase {
       FALCON, FRONT_LEFT_DRIVE_MOTOR, 
       FALCON, FRONT_LEFT_STEER_MOTOR, 
       CANCODER, FRONT_LEFT_ENCODER, 
-      MK4i
+      MK4i_L3
     );
 
     frontRightModule = new SwerveModule(
       FALCON, FRONT_RIGHT_DRIVE_MOTOR, 
       FALCON, FRONT_RIGHT_STEER_MOTOR, 
       CANCODER, FRONT_RIGHT_ENCODER, 
-      MK4i
+      MK4i_L3
     );
 
     backLeftModule = new SwerveModule(
       FALCON, BACK_LEFT_DRIVE_MOTOR, 
       FALCON, BACK_LEFT_STEER_MOTOR, 
       CANCODER, BACK_LEFT_ENCODER, 
-      MK4i
+      MK4i_L3
     );
 
     backRightModule = new SwerveModule(
       FALCON, BACK_RIGHT_DRIVE_MOTOR, 
       FALCON, BACK_RIGHT_STEER_MOTOR, 
       CANCODER, BACK_RIGHT_ENCODER, 
-      MK4i
+      MK4i_L3
     );
 
     frontLeftModule.steerMotor.setDirectionFlip(true);
