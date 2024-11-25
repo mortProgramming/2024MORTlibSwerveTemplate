@@ -17,7 +17,7 @@ public class Vision extends SubsystemBase {
 	private AprilTagFieldLayout tagLayout;
 
     private Vision() {
-		frontCamera = new TagCamera(TagCameraTypeEnum.LimeLight, "front");
+		frontCamera = new TagCamera(TagCameraTypeEnum.LIMELIGHT, "front");
 
 		tagLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
 	}
