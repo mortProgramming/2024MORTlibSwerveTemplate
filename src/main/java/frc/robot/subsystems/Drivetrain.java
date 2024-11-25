@@ -18,7 +18,7 @@ import static frc.robot.config.constants.PortConstants.Drivetrain.*;
 import static com.MORTlib.hardware.encoder.EncoderTypeEnum.*;
 import static com.MORTlib.hardware.imu.IMUTypeEnum.*;
 import static com.MORTlib.hardware.motor.MotorTypeEnum.*;
-import static com.MORTlib.swerve.ModuleTypeEnum.*;
+import static com.MORTlib.swerve.ModuleConfigEnum.*;
 
 import frc.robot.config.IO;
 import com.MORTlib.hardware.imu.IMU;
